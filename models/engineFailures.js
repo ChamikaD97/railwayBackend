@@ -9,6 +9,9 @@ const engineFailuresSchema = new mongoose.Schema(
     comments: { type: String, require: false },
     risk: { type: String, require: false },
     status: { type: String, require: false },
+    LFCComNum: { type: String, required: false },
+    assingedTo: { type: String, require: false },
+    completedOn: { type: Date, required: false },
   },
   { timestamps: true }
 );
