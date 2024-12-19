@@ -11,6 +11,7 @@ const engineFailuresSchema = new mongoose.Schema(
     status: { type: String, require: false },
     LFCComNum: { type: String, required: false },
     assingedTo: { type: String, require: false },
+    startedOn: { type: Date, required: false },
     completedOn: { type: Date, required: false },
   },
   { timestamps: true }
