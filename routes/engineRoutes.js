@@ -5,7 +5,7 @@ const protectRoute = require('../authMiddleware');
 const router = express.Router();
 
 // Get All Engines
-router.get('/' ,protectRoute,async (req, res) => {  
+router.get('/' ,async (req, res) => {  
   try {
     const engines = await Engine.find();
 
@@ -15,8 +15,7 @@ router.get('/' ,protectRoute,async (req, res) => {
   }
 });
 
-// Create a User
-router.post('/',protectRoute,async (req, res) => {  
+router.post('/',async (req, res) => {  
   const { type, shed, unitType,utilization,condition,remarks } = req.body;
 
   console.log(type, shed, unitType,utilization,condition,remarks);

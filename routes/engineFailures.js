@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", protectRoute, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const failures = await engineFailures.find().sort({ updatedAt: -1 }); // Use 1 for ascending, -1 for descending
 

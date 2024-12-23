@@ -5,7 +5,7 @@ const protectRoute = require("../authMiddleware");
 const router = express.Router();
 
 // Get All Engines
-router.get("/", protectRoute,async (req, res) => {
+router.get("/",async (req, res) => {
   try {
     const eng = await classEngines.find();
     res.status(200).json(eng);
