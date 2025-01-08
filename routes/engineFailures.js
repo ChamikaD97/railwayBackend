@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   const { date, failure, drivcerComNum, engine, comments, status, risk } =
     req.body;
-  console.log(req.body);
+
 
   try {
     const newengineFailures = new engineFailures({
@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
     await newengineFailures.save();
     res.status(201).json(newengineFailures);
   } catch (err) {
-    console.log(err);
+  
 
     res.status(500).json({ error: "Failed to create EngineFailures" });
   }
@@ -40,15 +40,13 @@ router.get("/", async (req, res) => {
 
 
 router.get("/engineFailureById", protectRoute, async (req, res) => {
-  console.log(req.query);
-
   try {
     const failures = await engineFailures.findById(req.query.id);
-    console.log(failures);
+
 
     res.status(200).json(failures);
   } catch (err) {
-    console.log(err);
+    
 
     res.status(500).json({ error: "Failed to fetch Engine Failures" });
   }
@@ -56,8 +54,7 @@ router.get("/engineFailureById", protectRoute, async (req, res) => {
 
 router.put("/updateById", async (req, res) => {
   const { id, ...updateData } = req.body;
-  console.log(`Updating Engine Failure with ID: ${id}`);
-  console.log(req.body);
+
 
   try {
     const updatedFailure = await engineFailures.findByIdAndUpdate(
@@ -72,7 +69,7 @@ router.put("/updateById", async (req, res) => {
 
     res.status(201).json(updatedFailure);
   } catch (err) {
-    console.log(err);
+
     res.status(500).json({ error: "Failed to update Engine Failure" });
   }
 });

@@ -49,13 +49,13 @@ router.post("/login", async (req, res) => {
       token: token,user:user
     });
   } catch (error) {
-    console.error(error);
+   
     res.status(500).json({ message: "Server error" });
   }
 });
 
 router.post("/register", async (req, res) => { 
-  console.log(req.body);
+
 
   const { comNum, password, nic, name, bio, lastLogin, attempts } = req.body;
 
@@ -88,7 +88,7 @@ router.post("/register", async (req, res) => {
       message: "User registered successfully.",
     });
   } catch (error) {
-    console.error(error);
+ 
     res.status(500).json({ message: "Server error" });
   }
 });

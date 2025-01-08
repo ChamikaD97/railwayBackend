@@ -16,26 +16,25 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
+ 
 
   const { type, shed, unitType, utilization, condition, remarks } = req.body;
 
-  console.log(type, shed, unitType, utilization, condition, remarks);
 
   try {
     const newEngine = new Engine(req.body);
     await newEngine.save();
     res.status(201).json(newEngine);
   } catch (err) {
-    console.log(err);
+  
 
     res.status(500).json({ error: "Failed to create Engine" });
   }
 });
 router.get("/engineBySubClass", async (req, res) => {
-  console.log('engineBySubClass');
+ 
   const { subClass } = req.query; // Get subClass from query params
-  console.log(subClass);
+  
   
   try {
     const engines = await Engine.find({ subClass });
