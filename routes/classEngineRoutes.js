@@ -6,6 +6,8 @@ const router = express.Router();
 
 // Get All Engines
 router.get("/",async (req, res) => {
+  console.error(' Class Engines... ');
+
   try {
     const eng = await classEngines.find();
     res.status(200).json(eng);

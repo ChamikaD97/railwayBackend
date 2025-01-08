@@ -6,6 +6,7 @@ const router = express.Router();
 
 // Get All Engines
 router.get("/", async (req, res) => {
+  console.error('Engines... ');
   try {
     const engines = await Engine.find();
 
@@ -34,7 +35,8 @@ router.post("/", async (req, res) => {
 router.get("/engineBySubClass", async (req, res) => {
  
   const { subClass } = req.query; // Get subClass from query params
-  
+  console.error('engineBySubClass... ');
+
   
   try {
     const engines = await Engine.find({ subClass });

@@ -5,6 +5,8 @@ const protectRoute = require("../authMiddleware");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
+  console.error('EngineFailures...post ');
+
   const { date, failure, drivcerComNum, engine, comments, status, risk } =
     req.body;
 
@@ -29,6 +31,8 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
+  console.error('EngineFailures...get ');
+
   try {
     const failures = await engineFailures.find().sort({ updatedAt: -1 }); // Use 1 for ascending, -1 for descending
 
