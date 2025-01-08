@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 // MongoDB Connection
 mongoose
   .connect(
-    "mongodb+srv://slrailway1864:aCZ2fa4jtyfVxm2d@railway.vnpyz.mongodb.net/?retryWrites=true&w=majority&appName=railway"
+    process.env.MONGO_URI
   )
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
