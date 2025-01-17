@@ -30,12 +30,15 @@ const classEngineRoutes = require("./routes/classEngineRoutes");
 const userRoutes = require("./routes/userRoutes");
 const failureRoutes = require("./routes/failureRoutes");
 const engineFailures = require("./routes/engineFailures");
+const tripCards = require("./routes/tripCardRoutes");
 
 app.use("/api/engines", engineRoutes);
 app.use("/api/classEngines", classEngineRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/failures", failureRoutes);
 app.use("/api/engineFailures", engineFailures);
+
+app.use("/api/tripCards", tripCards);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
