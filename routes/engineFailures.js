@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   console.error('EngineFailures...post ');
 
-  const { date, failure, drivcerComNum, engine, comments, status, risk } =
+  const { date, failure, drivcerComNum, engine,trainNumber, comments, status, risk } =
     req.body;
 
 
@@ -17,6 +17,7 @@ router.post("/", async (req, res) => {
       failure,
       drivcerComNum,
       engine,
+      trainNumber,
       comments,
       status,
       risk,
