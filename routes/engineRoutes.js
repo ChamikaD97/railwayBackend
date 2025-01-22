@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
 
     res.status(200).json(engines);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch Engines" });
+    res.status(500).json({ error:err });
   }
 });
 
@@ -27,45 +27,70 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: "Failed to create Engine" });
   }
 });
-router.get("/engineBySubClass", async (req, res) => {
-  const { subClass } = req.query; // Get subClass from query params
-  console.error("engineBySubClass... ");
+router.get("/", async (req, res) => {
+  console.error("Class Engines...");
 
   try {
-    const engines = await Engine.find({ subClass });
-    if (engines.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No engines found for this subClass" });
-    }
-    res.json(engines);
+    const eng = await classEngines
+      .aggregate([
+        {
+          $addFields: {
+            numericPart: {
+              $toInt: { $substr: ["$type", 1, { $strLenBytes: "$type" }] }, // Remove the first character ("S") and convert to integer
+            },
+          },
+        },
+        { $sort: { numericPart: 1 } }, // Sort by the numeric part
+        {
+          $project: {
+            type: 1, // Keep the original 'type' field
+            numericPart: 0, // Remove the temporary numericPart field
+          },
+        },
+      ])
+      .exec();
+
+    res.status(200).json(eng);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch Engine" });
+    res.status(500).json({ error: "Failed to fetch Class Engines" });
   }
 });
 
+
 router.get("/enginesByClass", async (req, res) => {
-
   const { className } = req.query; // Get subClass from query params
-console.log('enginesByClass...',className);
+  console.log("enginesByClass...", className);
 
-try {
-
+  try {
     const engines = await Engine.find({
       class: { $regex: `^${className}`, $options: "i" }, // Matches documents where 'type' starts with 'typen' (case-insensitive)
     });
 
 
-
-    
-    if (engines.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No engines found for this Class" });
-    }
     res.json(engines);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch Engines" });
   }
 });
+
+router.get("/enginesByClassType", async (req, res) => {
+  const { type } = req.query; // Get subClass from query params
+  console.log("engines By Class Type...", req.query);
+
+  try {
+   
+    console.log(type);
+    
+   const engines = await Engine.find({
+    subClass: { $regex: `^${type}-`, $options: "i" }, // Matches documents where 'type' starts with 'typen' (case-insensitive)+
+    });
+    if (engines.length === 0) {
+      return  res.json([]);
+    }
+    res.json(engines);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch Type" });
+  }
+});
+
 module.exports = router;

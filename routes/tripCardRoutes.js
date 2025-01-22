@@ -21,7 +21,11 @@ router.post("/", async (req, res) => {
     const newTripCard = new TripCards(req.body);
     await newTripCard.save();
     res.status(201).json(newTripCard);
+    console.log(newTripCard);
+    
   } catch (err) {
+    console.log(err.message);
+    
     res.status(500).json({ error: "Failed to create new Trip Card" });
   }
 });

@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 router.post("/login", async (req, res) => {
   const { comNum, password } = req.body;
-  console.error('Loging ');
+  console.error('Loging... ');
   try {
     const user = await User.findOne({ comNum });
 
@@ -48,6 +48,7 @@ router.post("/login", async (req, res) => {
       message: "Login successful!",
       token: token,user:user
     });
+
   } catch (error) {
     console.error('Loging - ',error);
     res.status(500).json({ message: "Server error" });
@@ -57,7 +58,7 @@ router.post("/login", async (req, res) => {
 router.post("/register", async (req, res) => { 
 
   console.error('register ');
-  const { comNum, password, nic, name, bio, lastLogin, attempts } = req.body;
+  const { comNum, password, nic, name,  lastLogin, attempts } = req.body;
 
   try {
     const existingUser = await User.findOne({
@@ -75,7 +76,6 @@ router.post("/register", async (req, res) => {
       comNum,
       nic,
       name,
-      bio,
       lastLogin,
       attempts,
       password: hashedPassword,

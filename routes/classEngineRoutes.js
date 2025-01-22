@@ -6,23 +6,26 @@ const router = express.Router();
 
 // Get All Engines
 router.get("/", async (req, res) => {
-  console.error(" Class Engines... ");
+  console.error("Class Engines...");
 
   try {
-    const eng = await classEngines.find();
+    // Sorting in ascending order by 'year'
+    const eng = await classEngines.find().sort({ year: 1 });
     res.status(200).json(eng);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch Class Engines" });
   }
 });
 
-router.get("/classenginesbyType", async (req, res) => {
-  console.error(" classenginesbyType .. ",req.query);
-  const { type } = req.query; // Get subClass from query params
+router.get("/classEnginesbyTypeName", async (req, res) => {
+  console.error(" classEnginesbyTypeName .. ", req.query);
+  const { type, sortOrder } = req.query; // Get subClass from query params and optional sortOrder
   try {
-    const eng = await classEngines.find({
-      type: { $regex: `^${type}`, $options: "i" }, // Matches documents where 'type' starts with 'typen' (case-insensitive)
-    });
+    const eng = await classEngines
+      .find({
+        type: { $regex: `^${type}`, $options: "i" }, // Matches documents where 'type' starts with 'type' (case-insensitive)
+      })
+      .sort({ year: sortOrder === "desc" ? -1 : 1 }); // Sort by year in ascending (1) or descending (-1) order
     res.status(200).json(eng);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch Class Engines" });
