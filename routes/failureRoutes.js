@@ -4,7 +4,7 @@ const protectRoute = require("../authMiddleware");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/",protectRoute, async (req, res) => {
   try {
     const failureList = await failures.find();    
     res.status(200).json(failureList);

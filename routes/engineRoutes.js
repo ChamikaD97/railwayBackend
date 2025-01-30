@@ -5,17 +5,17 @@ const protectRoute = require("../authMiddleware");
 const router = express.Router();
 
 // Get All Engines
-router.get("/", async (req, res) => {
+router.get("/", protectRoute, async (req, res) => {
   try {
     const engines = await Engine.find();
 
     res.status(200).json(engines);
   } catch (err) {
-    res.status(500).json({ error:err });
+    res.status(500).json({ error: err });
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", protectRoute, async (req, res) => {
   const { type, shed, unitType, utilization, condition, remarks } = req.body;
 
   try {
@@ -26,8 +26,7 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: "Failed to create Engine" });
   }
 });
-router.get("/", async (req, res) => {
-
+router.get("/", protectRoute,async (req, res) => {
   try {
     const eng = await classEngines
       .aggregate([
@@ -54,8 +53,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-router.get("/enginesByClass", async (req, res) => {
+router.get("/enginesByClass",protectRoute, async (req, res) => {
   const { className } = req.query; // Get subClass from query params
 
   try {
@@ -63,22 +61,20 @@ router.get("/enginesByClass", async (req, res) => {
       class: { $regex: `^${className}`, $options: "i" }, // Matches documents where 'type' starts with 'typen' (case-insensitive)
     });
 
-
     res.json(engines);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch Engines" });
   }
 });
 
-router.get("/enginesByClassType", async (req, res) => {
+router.get("/enginesByClassType",protectRoute, async (req, res) => {
   const { type } = req.query; // Get subClass from query params
   try {
-      
-   const engines = await Engine.find({
-    subClass: { $regex: `^${type}-`, $options: "i" }, // Matches documents where 'type' starts with 'typen' (case-insensitive)+
+    const engines = await Engine.find({
+      subClass: { $regex: `^${type}-`, $options: "i" }, // Matches documents where 'type' starts with 'typen' (case-insensitive)+
     });
     if (engines.length === 0) {
-      return  res.json([]);
+      return res.json([]);
     }
     res.json(engines);
   } catch (err) {
