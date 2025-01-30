@@ -6,7 +6,6 @@ const router = express.Router();
 
 // Get All Engines
 router.get("/", async (req, res) => {
-  console.error("Engines... ");
   try {
     const engines = await Engine.find();
 
@@ -28,7 +27,6 @@ router.post("/", async (req, res) => {
   }
 });
 router.get("/", async (req, res) => {
-  console.error("Class Engines...");
 
   try {
     const eng = await classEngines
@@ -59,7 +57,6 @@ router.get("/", async (req, res) => {
 
 router.get("/enginesByClass", async (req, res) => {
   const { className } = req.query; // Get subClass from query params
-  console.log("enginesByClass...", className);
 
   try {
     const engines = await Engine.find({
@@ -75,12 +72,8 @@ router.get("/enginesByClass", async (req, res) => {
 
 router.get("/enginesByClassType", async (req, res) => {
   const { type } = req.query; // Get subClass from query params
-  console.log("engines By Class Type...", req.query);
-
   try {
-   
-    console.log(type);
-    
+      
    const engines = await Engine.find({
     subClass: { $regex: `^${type}-`, $options: "i" }, // Matches documents where 'type' starts with 'typen' (case-insensitive)+
     });

@@ -6,8 +6,6 @@ const router = express.Router();
 
 // Get All Engines
 router.get("/", async (req, res) => {
-  console.error("Class Engines...");
-
   try {
     // Sorting in ascending order by 'year'
     const eng = await classEngines.find().sort({ year: 1 });
@@ -18,7 +16,6 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/classEnginesbyTypeName", async (req, res) => {
-  console.error(" classEnginesbyTypeName .. ", req.query);
   const { type, sortOrder } = req.query; // Get subClass from query params and optional sortOrder
   try {
     const eng = await classEngines
