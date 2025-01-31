@@ -5,7 +5,7 @@ const protectRoute = require("../authMiddleware");
 const router = express.Router();
 
 // Get All Engines
-router.get("/", protectRoute, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const engines = await Engine.find();
 
@@ -15,7 +15,7 @@ router.get("/", protectRoute, async (req, res) => {
   }
 });
 
-router.post("/", protectRoute, async (req, res) => {
+router.post("/", async (req, res) => {
   const { type, shed, unitType, utilization, condition, remarks } = req.body;
 
   try {
@@ -26,7 +26,7 @@ router.post("/", protectRoute, async (req, res) => {
     res.status(500).json({ error: "Failed to create Engine" });
   }
 });
-router.get("/", protectRoute,async (req, res) => {
+router.get("/",async (req, res) => {
   try {
     const eng = await classEngines
       .aggregate([
@@ -53,7 +53,7 @@ router.get("/", protectRoute,async (req, res) => {
   }
 });
 
-router.get("/enginesByClass",protectRoute, async (req, res) => {
+router.get("/enginesByClass", async (req, res) => {
   const { className } = req.query; // Get subClass from query params
 
   try {
@@ -67,7 +67,7 @@ router.get("/enginesByClass",protectRoute, async (req, res) => {
   }
 });
 
-router.get("/enginesByClassType",protectRoute, async (req, res) => {
+router.get("/enginesByClassType", async (req, res) => {
   const { type } = req.query; // Get subClass from query params
   try {
     const engines = await Engine.find({

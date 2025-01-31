@@ -4,7 +4,7 @@ const protectRoute = require("../authMiddleware");
 
 const router = express.Router();
 
-router.post("/",protectRoute, async (req, res) => {
+router.post("/", async (req, res) => {
   const { date, failure, drivcerComNum, engine,trainNumber, comments, status, risk } =
     req.body;
 
@@ -29,7 +29,7 @@ router.post("/",protectRoute, async (req, res) => {
   }
 });
 
-router.get("/", protectRoute,async (req, res) => {
+router.get("/",async (req, res) => {
   try {
     const failures = await engineFailures.find().sort({ updatedAt: -1 }); // Use 1 for ascending, -1 for descending
 
@@ -40,7 +40,7 @@ router.get("/", protectRoute,async (req, res) => {
 });
 
 
-router.get("/engineFailureById", protectRoute, async (req, res) => {
+router.get("/engineFailureById", async (req, res) => {
   try {
     const failures = await engineFailures.findById(req.query.id);
 
@@ -53,7 +53,7 @@ router.get("/engineFailureById", protectRoute, async (req, res) => {
   }
 });
 
-router.put("/updateById",protectRoute, async (req, res) => {
+router.put("/updateById", async (req, res) => {
   const { id, ...updateData } = req.body;
 
 

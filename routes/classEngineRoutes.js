@@ -5,7 +5,7 @@ const protectRoute = require("../authMiddleware");
 const router = express.Router();
 
 // Get All Engines
-router.get("/",protectRoute, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     // Sorting in ascending order by 'year'
     const eng = await classEngines.find().sort({ year: 1 });
@@ -15,7 +15,7 @@ router.get("/",protectRoute, async (req, res) => {
   }
 });
 
-router.get("/classEnginesbyTypeName",protectRoute, async (req, res) => {
+router.get("/classEnginesbyTypeName", async (req, res) => {
   const { type, sortOrder } = req.query; // Get subClass from query params and optional sortOrder
   try {
     const eng = await classEngines
