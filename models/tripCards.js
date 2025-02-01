@@ -19,6 +19,10 @@ const tripCardSchema = new mongoose.Schema(
     head_light: { type: Boolean, default: false },
     wipers: { type: Boolean, default: false },
     rad_fan: { type: Boolean, default: false }, //
+
+
+    isDoubleSet: { type: Boolean, default: false }, //
+    doubleSetLink:{ type: String, required: false , default:''},
   },
   { timestamps: true }
 );
