@@ -8,12 +8,12 @@ router.post("/login", async (req, res) => {
   const { comNum, password } = req.body;
   try {
     const user = await User.findOne({ comNum });
-console.log(user.name +' comNum - '+  comNum);
+    console.log(user.name + "  - number  - " + comNum);
 
     if (!user) {
       return res.status(201).json({ message: "User not found." });
     }
-    
+
     const attempts = user.attempts + 1;
 
     await User.findOneAndUpdate(
@@ -46,16 +46,16 @@ console.log(user.name +' comNum - '+  comNum);
 
     res.status(200).json({
       message: "Login successful!",
-      token: token,user:user
+      token: token,
+      user: user,
     });
-
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 });
 
-router.post("/register", async (req, res) => { 
-  const { comNum, password, nic, name,  lastLogin, attempts } = req.body;
+router.post("/register", async (req, res) => {
+  const { comNum, password, nic, name, lastLogin, attempts } = req.body;
 
   try {
     const existingUser = await User.findOne({
