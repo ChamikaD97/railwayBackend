@@ -8,6 +8,7 @@ router.post("/login", async (req, res) => {
   const { comNum, password } = req.body;
   try {
     const user = await User.findOne({ comNum });
+console.log(user.name +' comNum - '+  comNum);
 
     if (!user) {
       return res.status(201).json({ message: "User not found." });
