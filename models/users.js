@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema(
     attempts: { type: Number, require: false, default: 0 },
     failedAttempts: { type: Number, require: false, default: 0 },
     lastLogin: { type: Date, require: false },
+    isVerified: { type: Boolean, require: true, default: true },
+
   },
   { timestamps: true }
 );
