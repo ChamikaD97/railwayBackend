@@ -41,13 +41,13 @@ router.get("/", async (req, res) => {
     const failureList = await failures.find(); 
 
     // Example of sending an email
-    await sendEmail(
+   /* await sendEmail(
       "wifefyhubby@gmail.com",
       "Test Subject",
       "Plain text body",
       "<strong>HTML body</strong>"
     );   
-
+*/
     res.status(200).json(failureList);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch Failures" });
