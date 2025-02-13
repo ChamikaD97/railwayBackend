@@ -51,9 +51,13 @@ router.get("/engineFailuresByDrivcerComNum", async (req, res) => {
   try {
     const failures = await engineFailures.find(data);
 
-    res.status(200).json(failures);
+    if (failures.length === 0) {
+      res.status(200).json([]);
+    }
+
+    res.json(failures);
   } catch (err) {
-    res.status(500).json({ error: "No Failures To  User" });
+    res.status(500).json({ error: "No Failures To  Engine" });
   }
 });
 router.get("/engineFailureByEngine", async (req, res) => {
@@ -63,7 +67,13 @@ router.get("/engineFailureByEngine", async (req, res) => {
 
   try {
     const failures = await engineFailures.find(data);
-    res.status(200).json(failures);
+    if (failures.length === 0) {
+      res.status(200).json([]);
+    }else{
+      res.json(failures);
+
+    }
+
   } catch (err) {
     res.status(500).json({ error: "No Failures To This Engine" });
   }
@@ -72,8 +82,11 @@ router.get("/engineFailureById", async (req, res) => {
   try {
     const failures = await engineFailures.findById(req.query.id);
 
-    res.status(200).json(failures);
-  } catch (err) {
+    if (failures.length === 0) {
+      res.status(200).json([]);
+    }
+
+    res.json(failures);  } catch (err) {
     res.status(500).json({ error: "Failed to fetch Engine Failures" });
   }
 });

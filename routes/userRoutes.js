@@ -4,7 +4,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
@@ -14,7 +13,6 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch users" });
   }
 });
-
 
 router.post("/login", async (req, res) => {
   const { comNum, password } = req.body;
@@ -100,5 +98,20 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+router.get("/driverByDrivcerComNum", async (req, res) => {
+  const data = {
+    comNum: req.query.comNum,
+  };
 
+  try {
+    const user = await User.find(data);
+    if (user.length) {
+      res.status(200).json(user[0]);
+    } else {
+      res.status(200).json([]);
+    }
+  } catch (err) {
+    res.status(500).json({ error: "No User" });
+  }
+});
 module.exports = router;

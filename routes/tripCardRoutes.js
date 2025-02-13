@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const trips = await TripCards.find();
+    const trips = await TripCards.find().sort({ updatedAt: -1 }); // Use 1 for ascending, -1 for descending
 
     res.status(200).json(trips);
   } catch (err) {
@@ -28,13 +28,64 @@ router.get("/tripsByTrainNumber", async (req, res) => {
   try {
     const trips = await TripCards.find(trainNumber);
     if (trips.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No Trip Cards found for this Train Number" });
+      res.status(200).json([]);
     }
     res.json(trips);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch Trip Cards" });
   }
 });
+
+router.get("/ss", async (req, res) => {
+  const data = {
+    subClass: req.query.subClass,
+  };
+
+  try {
+    const trips = await TripCards.find(data);
+    if (trips.length === 0) {
+      return res.json([]);
+    }
+    res.json(trips[0]);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch Type" });
+  }
+});
+
+
+router.get("/tripsByEnginenumber", async (req, res) => {
+  const data = {
+    engine: req.query.engine,
+  };
+  try {
+    const trips = await TripCards.find(data);
+    if (trips.length === 0) {
+      res.status(200).json([]);
+      }else{
+        console.log(trips.length);
+    
+        res.json(trips);
+      }
+   
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch Trip Cards" });
+  }
+});
+
+router.get("/tripsByDriverComnumber", async (req, res) => {
+  const data = {
+    driverComNum: req.query.driverComNum,
+  };
+  try {
+    const trips = await TripCards.find(data);
+ if(trips){
+  res.status(200).json(trips);
+
+ }
+   
+  } catch (err) {
+    res.status(404).json({ error: "Failed to fetch Trips" });
+  }
+});
+
 module.exports = router;

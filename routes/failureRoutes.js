@@ -63,5 +63,19 @@ router.post("/email", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch Failures" });
   }
 });
+router.get("/failuresByDriverComnumber", async (req, res) => {
+  const data = {
+    drivcerComNum: req.query.drivcerComNum,
+  };
 
+  try {
+    const failureList = await TripCards.find(data);
+    if (failureList.length === 0) {
+      res.json(failureList[0]);
+    }
+    res.json(failureList);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch Failures" });
+  }
+});
 module.exports = router;

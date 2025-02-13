@@ -82,4 +82,24 @@ router.get("/enginesByClassType", async (req, res) => {
   }
 });
 
+
+
+
+
+router.get("/engineBySubClass", async (req, res) => {
+  const data = {
+    subClass: req.query.subClass,
+  };
+
+  try {
+    const engines = await Engine.find(data);
+    if (engines.length === 0) {
+      return res.json([]);
+    }
+    res.json(engines[0]);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch Type" });
+  }
+});
+
 module.exports = router;
