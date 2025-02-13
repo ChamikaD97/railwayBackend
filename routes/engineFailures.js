@@ -53,9 +53,12 @@ router.get("/engineFailuresByDrivcerComNum", async (req, res) => {
 
     if (failures.length === 0) {
       res.status(200).json([]);
+    }else{
+      res.json(failures);
+
     }
 
-    res.json(failures);
+  
   } catch (err) {
     res.status(500).json({ error: "No Failures To  Engine" });
   }
