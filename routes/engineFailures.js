@@ -9,11 +9,11 @@ router.post("/", async (req, res) => {
     date,
     failure,
     drivcerComNum,
+    driverName,
     engine,
     trainNumber,
     comments,
     status,
-    risk,
   } = req.body;
 
   try {
@@ -21,11 +21,11 @@ router.post("/", async (req, res) => {
       date,
       failure,
       drivcerComNum,
+      driverName,
       engine,
       trainNumber,
       comments,
       status,
-      risk,
     });
     await newengineFailures.save();
     res.status(201).json(newengineFailures);
@@ -49,16 +49,13 @@ router.get("/engineFailuresByDrivcerComNum", async (req, res) => {
   };
 
   try {
-    const failures = await engineFailures.find(data);
+    const failures = await engineFailures.find(data).sort({ updatedAt: -1 });
 
     if (failures.length === 0) {
       res.status(200).json([]);
-    }else{
+    } else {
       res.json(failures);
-
     }
-
-  
   } catch (err) {
     res.status(500).json({ error: "No Failures To  Engine" });
   }
@@ -69,18 +66,37 @@ router.get("/engineFailureByEngine", async (req, res) => {
   };
 
   try {
-    const failures = await engineFailures.find(data);
+    const failures = await engineFailures.find(data).sort({ updatedAt: -1 });;
     if (failures.length === 0) {
       res.status(200).json([]);
-    }else{
+    } else {
       res.json(failures);
-
     }
-
   } catch (err) {
     res.status(500).json({ error: "No Failures To This Engine" });
   }
 });
+
+
+router.get("/engineFailureByTrainNumber", async (req, res) => {
+  const data = {
+    trainNumber: req.query.trainNumber,
+  };
+  try {
+    const failures = await engineFailures.find(data);
+    if (failures.length === 0) {
+      res.status(200).json([]);
+    } else {
+      res.json(failures);
+    }
+  } catch (err) {
+    res.status(500).json({ error: "No Failures To This Train Number" });
+  }
+});
+
+
+
+
 router.get("/engineFailureById", async (req, res) => {
   try {
     const failures = await engineFailures.findById(req.query.id);
@@ -89,7 +105,8 @@ router.get("/engineFailureById", async (req, res) => {
       res.status(200).json([]);
     }
 
-    res.json(failures);  } catch (err) {
+    res.json(failures);
+  } catch (err) {
     res.status(500).json({ error: "Failed to fetch Engine Failures" });
   }
 });

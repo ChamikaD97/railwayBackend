@@ -7,7 +7,7 @@ const router = express.Router();
 // Get All Engines
 router.get("/", async (req, res) => {
   try {
-    const engines = await Engine.find();
+    const engines = await Engine.find().sort({ updatedAt: -1 });;
 
     res.status(200).json(engines);
   } catch (err) {

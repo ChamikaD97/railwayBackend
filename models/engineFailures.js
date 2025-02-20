@@ -5,6 +5,7 @@ const engineFailuresSchema = new mongoose.Schema(
     date: { type: Date, required: false },
     failure: { type: String, required: true },
     drivcerComNum: { type: String, required: true },
+    driverName: { type: String, required: false },
     engine: { type: String, required: true },
     trainNumber: { type: String, required: true },
     comments: { type: String, require: false },

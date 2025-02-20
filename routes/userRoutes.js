@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().sort({ updatedAt: -1 });;
 
     res.status(200).json(users);
   } catch (err) {
@@ -98,13 +98,14 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
 router.get("/driverByDrivcerComNum", async (req, res) => {
   const data = {
     comNum: req.query.comNum,
   };
 
   try {
-    const user = await User.find(data);
+    const user = await User.find(data).sort({ updatedAt: -1 });;
     if (user.length) {
       res.status(200).json(user[0]);
     } else {

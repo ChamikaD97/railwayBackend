@@ -1,12 +1,10 @@
 const mongoose = require("mongoose");
 
-const tripCardSchema = new mongoose.Schema(
+const inspectionSchema = new mongoose.Schema(
   {
     date: { type: Date, required: false },
-    trainNumber: { type: String, required: true },
-    driverComNum: { type: String, required: true },
-    driverName: { type: String, required: false },
-    assistanceName: { type: String, required: false },
+    lfName: { type: String, required: false },
+    lfComNum: { type: String, required: true },
     engine: { type: String, required: true },
     auxiliary_couplings: { type: Boolean, default: false },
     transmission_circuit_leak: { type: Boolean, default: false },
@@ -20,10 +18,14 @@ const tripCardSchema = new mongoose.Schema(
     head_light: { type: Boolean, default: false },
     wipers: { type: Boolean, default: false },
     rad_fan: { type: Boolean, default: false }, //
+
     isDoubleSet: { type: Boolean, default: false }, //
+
     doubleSetLink:{ type: String, required: false , default:''},
+
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Trips", tripCardSchema);
+module.exports = mongoose.model("inspection", inspectionSchema);
+
