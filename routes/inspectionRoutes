@@ -87,6 +87,7 @@ router.get("/inspectionById", async (req, res) => {
 
 router.get("/inspectionsByEnginenumber", async (req, res) => {
   const engineNumber = req.query.engine;
+console.log(engineNumber);
 
   if (!engineNumber) {
     return res.status(400).json({ error: "Engine number is required" });
