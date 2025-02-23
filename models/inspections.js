@@ -21,11 +21,11 @@ const inspectionSchema = new mongoose.Schema(
 
     isDoubleSet: { type: Boolean, default: false }, //
 
-    doubleSetLink:{ type: String, required: false , default:''},
-
+    doubleSetLink: { type: String, required: false, default: "" },
+    falseCount: { type: String, required: false,default: "0" },
+    trueCount: { type: String, required: false , default: "12" },
   },
   { timestamps: true }
 );
 
 module.exports = mongoose.model("inspection", inspectionSchema);
-
