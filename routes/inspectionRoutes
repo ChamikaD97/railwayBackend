@@ -5,7 +5,6 @@ const protectRoute = require("../authMiddleware");
 
 const router = express.Router();
 
-
 router.get("/", async (req, res) => {
   try {
     const inspections = await Inspections.find().sort({ updatedAt: -1 }); // Use 1 for ascending, -1 for descending
@@ -16,7 +15,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {    
+router.post("/", async (req, res) => {
   try {
     const newInspection = new Inspections(req.body);
     await newInspection.save();
@@ -26,64 +25,92 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/inspectionsByEnginenumber", async (req, res) => {
+router.get("/s", async (req, res) => {
+  const engine = req.query;
+
   const data = {
     engine: req.query.engine,
   };
+
   try {
-    const inspections = await Inspections.find(data).sort({ updatedAt: -1 });
+    const a = await Inspections.find({ engine: '"M2B-595"' });
+    const inspections = await Inspections.find({ engine: '"M2B-595"' });
     if (inspections.length === 0) {
-      res.status(200).json([]);
-      }else{
-        console.log(inspections.length);
-    
-        res.json(inspections);
-      }
-   
+      res.status(200).json("null");
+    } else {
+      console.log(inspections.length);
+
+      res.json(inspections);
+    }
   } catch (err) {
+    console.log(err);
+
     res.status(500).json({ error: "Failed to fetch Inspections" });
   }
 });
 
-
 router.get("/inspectionsByLFCComnumber", async (req, res) => {
-    
   const data = {
     lfComNum: req.query.lfComNum,
   };
   console.log(data);
-  
+
   try {
     const inspections = await Inspections.find(data).sort({ updatedAt: -1 });
- if(inspections){
-  res.status(200).json(inspections);
-
- }
-   
+    if (inspections) {
+      res.status(200).json(inspections);
+    }
   } catch (err) {
     res.status(404).json({ error: "Failed to fetch Inspections" });
   }
 });
 
-
 router.get("/inspectionById", async (req, res) => {
-    const Id = req.query.Id; // ✅ Use `req.query` instead of `req.body` for GET requests
+  const Id = req.query.Id; // ✅ Use `req.query` instead of `req.body` for GET requests
 
-    if (!Id || !mongoose.Types.ObjectId.isValid(Id)) {
-        return res.status(400).json({ error: "Invalid ID format" });
+  if (!Id || !mongoose.Types.ObjectId.isValid(Id)) {
+    return res.status(400).json({ error: "Invalid ID format" });
+  }
+
+  try {
+    const inspection = await Inspections.findById(Id); // ✅ Use `findById` for searching by `_id`
+
+    if (!inspection) {
+      return res.status(404).json({ error: "Inspection not found" });
     }
 
-    try {
-        const inspection = await Inspections.findById(Id); // ✅ Use `findById` for searching by `_id`
+    res.status(200).json(inspection);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch Inspection" });
+  }
+});
 
-        if (!inspection) {
-            return res.status(404).json({ error: "Inspection not found" });
-        }
+router.get("/inspectionsByEnginenumber", async (req, res) => {
+  const engineNumber = req.query.engine;
 
-        res.status(200).json(inspection);
-    } catch (err) {
-        res.status(500).json({ error: "Failed to fetch Inspection" });
+  if (!engineNumber) {
+    return res.status(400).json({ error: "Engine number is required" });
+  }
+
+  // Get the current date and the time 24 hours ago
+  const currentTime = new Date();
+  const past24Hours = new Date();
+  past24Hours.setHours(currentTime.getHours() - 24);
+
+  try {
+    const inspection = await Inspections.findOne({
+      engine: engineNumber,
+      updatedAt: { $gte: past24Hours, $lte: currentTime },
+    }).sort({ updatedAt: -1 });
+
+    if (!inspection) {
+      return res.status(200).json([' No inspection found within 24 hours']); // No inspection found within 24 hours
     }
+
+    res.json(inspection);
+  } catch (err) {
+    res.status(500).json({ error: "Error retrieving inspection data" });
+  }
 });
 
 module.exports = router;

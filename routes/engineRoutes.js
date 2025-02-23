@@ -102,4 +102,28 @@ router.get("/engineBySubClass", async (req, res) => {
   }
 });
 
+router.delete("/engineById", async (req, res) => {
+  const subClass = req.query.subClass; // ✅ Use `req.query` for DELETE requests with query parameters
+
+  // Validate the ID
+  
+  try {
+    const trip = await Engine.findOne({subClass});
+    console.log(trip);
+    
+    // Find and delete the trip card by ID
+    const eng = await Engine.findByIdAndDelete(trip._id);
+  
+    // Check if the trip card was found and deleted
+    if (!trip) {
+      return res.status(404).json({ error: "Trip not found" });
+    }
+
+    // Return the deleted trip card
+    res.status(200).json({ message: "Trip deleted successfully", trip });
+  } catch (err) {
+    console.error("Error deleting trip:", err);
+    res.status(500).json({ error: "Failed to delete trip" });
+  }
+});
 module.exports = router;

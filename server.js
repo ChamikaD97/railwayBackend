@@ -41,7 +41,7 @@ app.use("/api/failures", failureRoutes);
 app.use("/api/engineFailures", engineFailures);
 
 app.use("/api/tripCards", tripCards);
-app.use("/api/inspection", inspectionRoute);
+app.use("/api/inspections", inspectionRoute);
 
 // Start Server
 const PORT = process.env.PORT || 5000;

@@ -8,6 +8,11 @@ const tripCardSchema = new mongoose.Schema(
     driverName: { type: String, required: false },
     assistanceName: { type: String, required: false },
     engine: { type: String, required: true },
+
+    isInspectionDone: { type: Boolean, default: true }, //
+
+
+
     auxiliary_couplings: { type: Boolean, default: false },
     transmission_circuit_leak: { type: Boolean, default: false },
     dead_man: { type: Boolean, default: false },
